@@ -48,7 +48,7 @@ class StartStreamView(APIView):
 
         return Response({
             "message": "Streaming started",
-            "hls_url": f"http://localhost:8000/ffmpeg_outputs/index.m3u8"
+            "hls_url": f"http://https://rtsp1.onrender.com:9000/ffmpeg_outputs/index.m3u8"
         })
 
 
