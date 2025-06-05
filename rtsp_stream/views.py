@@ -18,6 +18,13 @@ from django.utils.decorators import method_decorator
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+import cv2
+from mtcnn import MTCNN
+import threading
+import asyncio
+import websockets
+import json
+
 class StartStreamView(APIView):
     def post(self, request):
         rtsp_url = request.data.get("rtsp_url")
@@ -26,6 +33,7 @@ class StartStreamView(APIView):
 
         # stream_id = str(uuid.uuid4())[:8]
         output_dir = f"./ffmpeg_outputs"
+        #output_dir = f"./media"
         os.makedirs(output_dir, exist_ok=True)
 
         output_path = f"{output_dir}/index.m3u8"
@@ -46,10 +54,46 @@ class StartStreamView(APIView):
 
         subprocess.Popen(command)
 
+        # Start MTCNN + OpenCV in background thread
+        threading.Thread(target=self.run_mtcnn, args=(rtsp_url,), daemon=True).start()
+
         return Response({
             "message": "Streaming started",
-            "hls_url": f"http://localhost:9000/ffmpeg_outputs/index.m3u8"
+            "hls_url": f"http://127.0.0.1:8000/ffmpeg_outputs/index.m3u8"
+           # "hls_url": f"http://localhost:8000/media/index.m3u8"
         })
+    
+    def run_mtcnn(self, rtsp_url):
+        cap = cv2.VideoCapture(rtsp_url)
+        detector = MTCNN()
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            print("!!!!!!!!!!!frame is ", frame)
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            results = detector.detect_faces(rgb_frame)
+
+            face_data = []
+            for face in results:
+                x, y, w, h = face['box']
+                face_data.append({
+                    'box': [x, y, w, h],
+                    'confidence': face['confidence']
+                })
+
+            # Send via websocket
+            asyncio.run(self.send_metadata(face_data))
+
+        cap.release()
+
+    async def send_metadata(self, data):
+        try:
+            async with websockets.connect("ws://127.0.0.1:8000/ws/metadata/") as websocket:
+                await websocket.send(json.dumps({"faces": data}))
+        except Exception as e:
+            print("WebSocket error:", e)
 
 
 class RegisterView(APIView):

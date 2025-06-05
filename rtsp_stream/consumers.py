@@ -251,3 +251,14 @@ class FFmpegMetadataConsumer(AsyncWebsocketConsumer):
     def parse_line(self, line):
         parts = line.strip().split()
         return {k: v for part in parts if '=' in part for k, v in [part.split('=', 1)]} 
+    
+
+class FaceMetadataConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+
+    async def receive(self, text_data):
+        print("Received:", text_data)
+
+    async def disconnect(self, close_code):
+        pass
