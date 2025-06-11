@@ -125,8 +125,10 @@ class StartStreamView(APIView):
             "message": "Streaming started",
             "stream_id": stream_id,
             # "hls_url": f"http://127.0.0.1:8000/ffmpeg_outputs/{stream_id}/index.m3u8",
-            "hls_url": f"http://127.0.0.1:8000/ffmpeg_outputs/index.m3u8",
-            "ws_url": f"ws://127.0.0.1:8000/ws/faces/1"
+            "hls_url": f"https://rtsp1.onrender.com/ffmpeg_outputs/index.m3u8",
+            # "ws_url": f"ws://127.0.0.1:8000/ws/faces/1"
+            "ws_url": f"wss://rtsp1.onrender.com/ws/faces/1"
+            
         })
 
     def run_mtcnn(self, rtsp_url):
