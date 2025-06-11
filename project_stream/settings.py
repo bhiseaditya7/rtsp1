@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import urllib.parse as urlparse
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -76,15 +80,32 @@ TEMPLATES = [
 #WSGI_APPLICATION = 'project_stream.wsgi.application'
 ASGI_APPLICATION = 'project_stream.asgi.application'
 
+# CHANNEL_LAYERS = {
+#     "default":{
+#         "BACKEND":"channels_redis.core.RedisChannelLayer",
+#         "CONFIG":{
+#             "hosts":[("localhost",6379)],
+#         }
+#     }
+# }
+redis_url = urlparse.urlparse(os.environ.get("REDIS_URL"))
 CHANNEL_LAYERS = {
-    "default":{
-        "BACKEND":"channels_redis.core.RedisChannelLayer",
-        "CONFIG":{
-            "hosts":[("127.0.0.1",6379)],
-        }
-    }
-}
 
+#     "default":{
+#         "BACKEND":"channels_redis.core.RedisChannelLayer",
+#         "CONFIG":{
+#             "hosts":[("127.0.0.1",6379)],
+#         }
+#     }
+=======
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("13.203.201.207", 6379)],
+        },
+    },
+
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -148,9 +169,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+# ]
 
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = BASE_DIR / 'media'
