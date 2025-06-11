@@ -38,7 +38,7 @@ from datetime import datetime
 
 
 os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
-=======
+
 #         return Response({
 #             "message": "Streaming started",
 #             "hls_url": f"https://rtsp1.onrender.com/ffmpeg_outputs/index.m3u8"

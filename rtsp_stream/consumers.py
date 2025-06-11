@@ -20,7 +20,7 @@ class FFmpegMetadataConsumer(AsyncWebsocketConsumer):
             stderr=asyncio.subprocess.PIPE
         )
         await self.send(text_data=json.dumps({'status':'connected12'}))
-=======
+
 #             '-i', 'rtsp://13.203.201.207:8554/mystream1',  # or replace dynamically
 #             '-an', '-vf', 'fps=10', '-f', 'null', '-',
 #             stderr=asyncio.subprocess.PIPE
