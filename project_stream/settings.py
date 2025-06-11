@@ -80,7 +80,7 @@ CHANNEL_LAYERS = {
     "default":{
         "BACKEND":"channels_redis.core.RedisChannelLayer",
         "CONFIG":{
-            "hosts":[("localhost",6379)],
+            "hosts":[("127.0.0.1",6379)],
         }
     }
 }
@@ -96,6 +96,16 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#    'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'stream_project',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root123',
+#         'HOST': '172.26.48.1',
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -149,3 +159,12 @@ MEDIA_URL = '/ffmpeg_outputs/'
 MEDIA_ROOT = BASE_DIR/ 'ffmpeg_outputs'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# import shutil
+# def clear_ffmpeg_outputs():
+#     output_dir = Path(__file__).resolve().parent.parent / 'ffmpeg_outputs'
+#     if output_dir.exists():
+#         shutil.rmtree(output_dir)
+#         output_dir.mkdir()
+
+# clear_ffmpeg_outputs()

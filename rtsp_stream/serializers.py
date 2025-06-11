@@ -1,12 +1,12 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-# from django.contrib.auth import get_user_model 
 
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework.exceptions import AuthenticationFailed
 
+from .models import Streams
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -57,4 +57,13 @@ class SignInSerializer(serializers.Serializer):
             raise AuthenticationFailed("Invalid username or password")
         
         return user
+    
+
+class StreamSerializer(serializers.Serializer):
+    
+    class Meta:
+        model = Streams
+        fields = ['stream_url','face_detection_flag','confidence_threshold']
+
+
     
