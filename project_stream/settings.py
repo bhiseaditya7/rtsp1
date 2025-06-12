@@ -173,6 +173,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     "http://localhost:3000",
 # ]
 
+CORS_ALLOWED_ORIGINS = [
+    "https://rtspcam.netlify.app",
+]
+
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = BASE_DIR / 'media'
 
