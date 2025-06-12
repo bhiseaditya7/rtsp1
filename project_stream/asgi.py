@@ -59,7 +59,7 @@ def clear_ffmpeg_outputs():
 clear_ffmpeg_outputs()
 
 application = ProtocolTypeRouter({
-    'http': get_asgi_application(),
+    'https': get_asgi_application(),
     'websocket': AuthMiddlewareStack(
         URLRouter(
             rtsp_stream.routing.websocket_urlpatterns
