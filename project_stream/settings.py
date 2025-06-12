@@ -174,7 +174,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://rtspcam.netlify.app","*",
+    "https://rtspcam.netlify.app"
 ]
 
 # MEDIA_URL = '/media/'
