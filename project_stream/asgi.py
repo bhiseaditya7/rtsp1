@@ -41,11 +41,20 @@ import shutil
 from pathlib import Path
 
 # Clear ffmpeg_outputs directory at startup
+# def clear_ffmpeg_outputs():
+#     output_dir = Path(__file__).resolve().parent.parent / 'ffmpeg_outputs'
+#     if output_dir.exists():
+#         shutil.rmtree(output_dir)
+#         output_dir.mkdir()
+
 def clear_ffmpeg_outputs():
     output_dir = Path(__file__).resolve().parent.parent / 'ffmpeg_outputs'
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
-        output_dir.mkdir()
+    output_dir.mkdir(exist_ok=True)
+    for item in output_dir.iterdir():
+        if item.is_file() or item.is_symlink():
+            item.unlink()
+        elif item.is_dir():
+            shutil.rmtree(item)
 
 clear_ffmpeg_outputs()
 
